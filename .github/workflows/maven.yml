@@ -28,12 +28,25 @@ jobs:
         sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
     - name: Build and Test with Maven
-      run: mvn clean test
-      continue-on-error: true
+      run: mvn clean test || echo "Tests failed but continuing to generate report"
+
+    - name: Debug Allure Results Directory
+      run: |
+        echo "Listing allure-results directory contents:"
+        ls -R allure-results
+
+    - name: Ensure Allure Results Directory Exists
+      run: mkdir -p allure-results
 
     - name: Generate Allure Report
-      run: mvn allure:report || echo "Allure report generation failed"
+      run: |
+        allure generate allure-results --clean -o allure-report || echo "Allure report generation failed"
       continue-on-error: true
+
+    - name: Debug Allure Report Directory
+      run: |
+        echo "Listing allure-report directory contents:"
+        ls -R allure-report
 
     - name: Upload Allure Report as Artifact
       uses: actions/upload-artifact@v3
@@ -41,9 +54,9 @@ jobs:
         name: allure-report
         path: allure-report
 
-    - name: Zip Allure Report
+    - name: Zip Allure Results and Report
       run: |
-        zip -r allure-report.zip allure-results
+        zip -r allure-report.zip allure-results allure-report
 
     - name: Send Allure Report via Email
       uses: dawidd6/action-send-mail@v3
