@@ -43,10 +43,12 @@ public class Base {
             case "chrome":
                 // Set up Chrome options for headless mode
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless");  // Run Chrome in headless mode
-                options.addArguments("--window-size=1920x1080");  // Optional: set window size
-                options.addArguments("--disable-gpu");  // Optional: disable GPU acceleration (useful in headless mode)
-                driver = new ChromeDriver(options);  // Pass options to ChromeDriver
+				/*
+				 * options.addArguments("--headless");
+				 * options.addArguments("--window-size=1920x1080");
+				 * options.addArguments("--disable-gpu");
+				 */
+                driver = new ChromeDriver(options);
                 break;
 
             case "edge":

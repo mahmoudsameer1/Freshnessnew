@@ -2,10 +2,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite">
     <listeners>
-        <!-- Your custom listener -->
         <listener class-name="com.Freshnessnew.Utilities.Listener" />
-        
-        <!-- Allure TestNG listener -->
         <listener class-name="io.qameta.allure.testng.AllureTestNg" />
     </listeners>
     <test thread-count="1" name="Test">

@@ -37,26 +37,13 @@ public class HomePageTest extends Base{
 
 	@Test(priority=1,description="Add a new product and verify it’s added successfully")
 	public void createNewProduct() throws InterruptedException{
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++ test case 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	    homepage = new HomePage();
 	    productPage = new ProductPage();
 	    homepage.createNewProductButton();
 	    productPage.createproduct(textTitle, descriptiontext, Price);
 	    //boolean productFound = homepage.searchCreatedProduct(textTitle);
 	    //Assert.assertTrue(productFound, "Newly created product not found");
-	    Assert.assertTrue(true, "Intentional true for testing purposes.");
-	}
-	
-	@Test(priority=1,description="Add a new product and verify it’s added successfully")
-	public void createNewProductt() throws InterruptedException{
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++ test case 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-	    homepage = new HomePage();
-	    productPage = new ProductPage();
-	    homepage.createNewProductButton();
-	    productPage.createproduct(textTitle, descriptiontext, Price);
-	    //boolean productFound = homepage.searchCreatedProduct(textTitle);
-	    //Assert.assertTrue(productFound, "Newly created product not found");
-	    Assert.assertTrue(false, "Intentional false for testing purposes.");
+	    Assert.assertTrue(false, "Intentional failed for testing purposes.");
 	}
 	
 	/*
