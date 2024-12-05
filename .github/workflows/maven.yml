@@ -30,9 +30,6 @@ jobs:
     - name: Build and Test with Maven
       run: mvn clean test
 
-    - name: Check Allure Results Folder
-      run: ls -la allure-results
-
     - name: Generate Allure Report
       run: mvn allure:report
       continue-on-error: true
