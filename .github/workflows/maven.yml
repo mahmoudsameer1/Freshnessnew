@@ -64,7 +64,7 @@ jobs:
         connection_url: smtp://smtp.gmail.com:587
         username: mahmoudsameer560@gmail.com
         password: blxi ymqn qjlk jpio
-        to: mahmoudsameer560@gmail.com
+        to: sameermahmoud132@gmail.com
         from: mahmoudsameer560@gmail.com
         subject: Allure Test Report
         body: Please find attached the Allure Test Report.
