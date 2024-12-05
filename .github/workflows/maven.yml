@@ -1,0 +1,60 @@
+name: Selenium with Testing - CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK 20
+      uses: actions/setup-java@v3
+      with:
+        java-version: '20'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Install Allure CLI
+      run: |
+        wget https://github.com/allure-framework/allure2/releases/download/2.21.0/allure-2.21.0.tgz
+        tar -zxvf allure-2.21.0.tgz
+        sudo mv allure-2.21.0 /opt/allure
+        sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+    - name: Build and Test with Maven
+      run: mvn clean test
+
+    - name: Generate Allure Report
+      run: mvn allure:serve
+      continue-on-error: true
+
+    - name: Upload Allure Report as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: allure-report
+
+    - name: Zip Allure Report
+      run: |
+        zip -r allure-report.zip allure-results
+
+    - name: Send Allure Report via Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        connection_url: smtp://smtp.gmail.com:587
+        username: mahmoudsameer560@gmail.com  # Store the Gmail username in GitHub Secrets
+        password: blxi ymqn qjlk jpio  # Store Gmail App password in GitHub Secrets
+        to: mahmoudsameer560@gmail.com
+        from: mahmoudsameer560@gmail.com
+        subject: Allure Test Report
+        body: Please find attached the Allure Test Report.
+        attachments: allure-report.zip
+
+    - name: Clean up Allure
+      run: rm -rf allure-2.21.0.tgz allure-2.21.0
