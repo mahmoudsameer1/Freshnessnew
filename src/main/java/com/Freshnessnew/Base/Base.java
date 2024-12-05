@@ -6,6 +6,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.io.FileHandler;
@@ -30,21 +31,37 @@ public class Base {
     @BeforeClass
     @Parameters({"browser"})
     public void launchApp(String br) throws IOException {
-    	
+
         // Loading config.properties file
         FileReader file = new FileReader("./src/test/resources/config.properties");
         prop = new Properties();
         prop.load(file);
-        
+
         logger = LogManager.getLogger(this.getClass());
-        
-        switch(br.toLowerCase()) {
-            case "chrome" : driver = new ChromeDriver(); break;
-            case "edge" : driver = new EdgeDriver(); break;
-            case "firefox" : driver = new FirefoxDriver(); break;
-            default : System.out.println("Invalid browser name"); return;
+
+        switch (br.toLowerCase()) {
+            case "chrome":
+                // Set up Chrome options for headless mode
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--headless");  // Run Chrome in headless mode
+                options.addArguments("--window-size=1920x1080");  // Optional: set window size
+                options.addArguments("--disable-gpu");  // Optional: disable GPU acceleration (useful in headless mode)
+                driver = new ChromeDriver(options);  // Pass options to ChromeDriver
+                break;
+
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+
+            default:
+                System.out.println("Invalid browser name");
+                return;
         }
-        
+
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.get(prop.getProperty("URL"));
