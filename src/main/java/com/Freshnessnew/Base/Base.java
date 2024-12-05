@@ -23,70 +23,72 @@ import java.util.Date;
 import java.util.Properties;
 
 public class Base {
-    
-    public static  WebDriver driver;
-    public Logger logger;
-    public Properties prop;
-    
-    @BeforeClass
-    @Parameters({"browser"})
-    public void launchApp(String br) throws IOException {
 
-        // Loading config.properties file
-        FileReader file = new FileReader("./src/test/resources/config.properties");
-        prop = new Properties();
-        prop.load(file);
+	public static WebDriver driver;
+	public Logger logger;
+	public Properties prop;
 
-        logger = LogManager.getLogger(this.getClass());
+	@BeforeClass
+	@Parameters({ "browser" })
+	public void launchApp(String br) throws IOException {
 
-        switch (br.toLowerCase()) {
-            case "chrome":
-                // Set up Chrome options for headless mode
-                ChromeOptions options = new ChromeOptions();
-				/*
-				 * options.addArguments("--headless");
-				 * options.addArguments("--window-size=1920x1080");
-				 * options.addArguments("--disable-gpu");
-				 */
-                driver = new ChromeDriver(options);
-                break;
+		// Loading config.properties file
+		FileReader file = new FileReader("./src/test/resources/config.properties");
+		prop = new Properties();
+		prop.load(file);
 
-            case "edge":
-                driver = new EdgeDriver();
-                break;
+		logger = LogManager.getLogger(this.getClass());
 
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
+		switch (br.toLowerCase()) {
+		case "chrome":
+			// Set up Chrome options for headless mode
+			ChromeOptions options = new ChromeOptions();
+			
+			 options.addArguments("--headless");
+			 options.addArguments("--window-size=1920x1080");
+			 options.addArguments("--disable-gpu");
+			 
+			driver = new ChromeDriver(options);
+			break;
 
-            default:
-                System.out.println("Invalid browser name");
-                return;
-        }
+		case "edge":
+			driver = new EdgeDriver();
+			break;
 
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.get(prop.getProperty("URL"));
-    }
-    
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
-    }
+		case "firefox":
+			driver = new FirefoxDriver();
+			break;
 
-    // Method to take a screenshot and save it to a file
-    public String takeScreenshot(String testName) {
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String screenshotPath = Paths.get(System.getProperty("user.dir"), "allure-results//screenshots", testName + "_" + timestamp + ".png").toString();
-        try {
-            TakesScreenshot ts = (TakesScreenshot) driver;
-            File source = ts.getScreenshotAs(OutputType.FILE);
-            File destination = new File(screenshotPath);
-            FileHandler.copy(source, destination);
-            logger.info("Screenshot captured: " + screenshotPath);
-        } catch (IOException e) {
-            logger.error("Failed to capture screenshot", e);
-        }
-        return screenshotPath;
-    }
+		default:
+			System.out.println("Invalid browser name");
+			return;
+		}
+
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
+		driver.get(prop.getProperty("URL"));
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+
+	// Method to take a screenshot and save it to a file
+	public String takeScreenshot(String testName) {
+		String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String screenshotPath = Paths
+				.get(System.getProperty("user.dir"), "allure-results//screenshots", testName + "_" + timestamp + ".png")
+				.toString();
+		try {
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File source = ts.getScreenshotAs(OutputType.FILE);
+			File destination = new File(screenshotPath);
+			FileHandler.copy(source, destination);
+			logger.info("Screenshot captured: " + screenshotPath);
+		} catch (IOException e) {
+			logger.error("Failed to capture screenshot", e);
+		}
+		return screenshotPath;
+	}
 }
