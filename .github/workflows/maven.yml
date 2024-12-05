@@ -22,16 +22,19 @@ jobs:
 
     - name: Install Allure CLI
       run: |
-        wget https://github.com/allure-framework/allure2/releases/download/2.21.0/allure-2.21.0.tgz
-        tar -zxvf allure-2.21.0.tgz
-        sudo mv allure-2.21.0 /opt/allure
+        wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+        tar -zxvf allure-2.24.0.tgz
+        sudo mv allure-2.24.0 /opt/allure
         sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
     - name: Build and Test with Maven
       run: mvn clean test
 
+    - name: Check Allure Results Folder
+      run: ls -la allure-results
+
     - name: Generate Allure Report
-      run: mvn allure:serve
+      run: mvn allure:report
       continue-on-error: true
 
     - name: Upload Allure Report as Artifact
@@ -48,8 +51,8 @@ jobs:
       uses: dawidd6/action-send-mail@v3
       with:
         connection_url: smtp://smtp.gmail.com:587
-        username: mahmoudsameer560@gmail.com  # Store the Gmail username in GitHub Secrets
-        password: blxi ymqn qjlk jpio  # Store Gmail App password in GitHub Secrets
+        username: mahmoudsameer560@gmail.com
+        password: blxi ymqn qjlk jpio
         to: mahmoudsameer560@gmail.com
         from: mahmoudsameer560@gmail.com
         subject: Allure Test Report
@@ -57,4 +60,4 @@ jobs:
         attachments: allure-report.zip
 
     - name: Clean up Allure
-      run: rm -rf allure-2.21.0.tgz allure-2.21.0
+      run: rm -rf allure-2.24.0.tgz allure-2.24.0
