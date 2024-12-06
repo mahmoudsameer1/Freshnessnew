@@ -22,7 +22,7 @@ import com.Freshnessnew.Base.Base;
 public class ProductPage extends Base{
 	
 	public ProductPage() {
-		 PageFactory.initElements(driver, this);
+        PageFactory.initElements(getDriver(), this); // Use getDriver() to initialize elements
 	}
 
 	Action action = new Action();
@@ -58,9 +58,9 @@ public class ProductPage extends Base{
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 	    wait.until(ExpectedConditions.elementToBeClickable(submit_button));
-		action.click(driver, submit_button);
+		action.click(getDriver(), submit_button);
 	}
 	
 //	public void editProduct(String textTitle, String editedTitle) throws InterruptedException {

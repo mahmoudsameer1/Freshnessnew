@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestSuite
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 10.57 s <<< FAILURE! -- in TestSuite
-com.Freshnessnew.HomePageTests.HomePageTest.createNewProduct -- Time elapsed: 2.166 s <<< FAILURE!
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 23.57 s <<< FAILURE! -- in TestSuite
+com.Freshnessnew.HomePageTests.HomePageTest.createNewProduct -- Time elapsed: 8.035 s <<< FAILURE!
 java.lang.AssertionError: Intentional failed for testing purposes. expected [true] but found [false]
 	at org.testng.Assert.fail(Assert.java:111)
 	at org.testng.Assert.failNotEquals(Assert.java:1578)
