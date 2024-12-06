@@ -37,7 +37,6 @@ public class Base {
     // BrowserStack credentials
     public static final String BROWSERSTACK_USERNAME = System.getenv("BROWSERSTACK_USERNAME");
     public static final String BROWSERSTACK_ACCESS_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    public static final String BROWSERSTACK_LOCAL_IDENTIFIER = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
     public static final String BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY
                                                   + "@hub-cloud.browserstack.com/wd/hub";
 
@@ -66,18 +65,31 @@ public class Base {
                 case "chrome":
                     capabilities.setCapability("browserName", "Chrome");
                     capabilities.setCapability("browserVersion", "latest");
+                    // Set Chrome to headless mode
+                    capabilities.setCapability("goog:chromeOptions", new HashMap<String, Object>() {{
+                        put("args", new String[]{"--headless", "--window-size=1920x1080", "--disable-gpu"});
+                    }});
                     break;
                 case "edge":
                     capabilities.setCapability("browserName", "Edge");
                     capabilities.setCapability("browserVersion", "latest");
+                    // Set Edge to headless mode
+                    capabilities.setCapability("ms:edgeOptions", new HashMap<String, Object>() {{
+                        put("args", new String[]{"--headless", "--window-size=1920x1080", "--disable-gpu"});
+                    }});
                     break;
                 case "firefox":
                     capabilities.setCapability("browserName", "Firefox");
                     capabilities.setCapability("browserVersion", "latest");
+                    // Set Firefox to headless mode
+                    capabilities.setCapability("moz:firefoxOptions", new HashMap<String, Object>() {{
+                        put("args", new String[]{"--headless", "--width=1920", "--height=1080"});
+                    }});
                     break;
                 case "safari":
                     capabilities.setCapability("browserName", "Safari");
                     capabilities.setCapability("browserVersion", "latest");
+                    // Safari does not support headless mode in BrowserStack directly, so no need to set headless
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid browser name for BrowserStack.");
@@ -87,7 +99,6 @@ public class Base {
             browserstackOptions.put("osVersion", osVersion);
             browserstackOptions.put("projectName", "Your Project Name");
             browserstackOptions.put("buildName", "Build Name");
-            browserstackOptions.put("localIdentifier", BROWSERSTACK_LOCAL_IDENTIFIER);
             browserstackOptions.put("seleniumVersion", "4.1.0");
 
             capabilities.setCapability("bstack:options", browserstackOptions);
