@@ -2,75 +2,121 @@ package com.Freshnessnew.Base;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
-
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Properties;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.io.FileHandler;
+import java.io.File;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
+
 
 public class Base {
 
-    // ThreadLocal to store WebDriver instances
     private static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     public Logger logger;
     public Properties prop;
 
-    // Getter for the WebDriver
+    // BrowserStack credentials
+    public static final String BROWSERSTACK_USERNAME = System.getenv("BROWSERSTACK_USERNAME");
+    public static final String BROWSERSTACK_ACCESS_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
+    public static final String BROWSERSTACK_LOCAL_IDENTIFIER = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
+    public static final String BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY
+                                                  + "@hub-cloud.browserstack.com/wd/hub";
+
     public static WebDriver getDriver() {
         return threadLocalDriver.get();
     }
 
     @BeforeClass
-    @Parameters({ "browser" })
-    public void launchApp(String br) throws IOException {
+    @Parameters({ "browser", "useBrowserStack", "os", "osVersion" })
+    public void launchApp(String browser, boolean useBrowserStack, String os, String osVersion) throws IOException {
 
-        // Loading config.properties file
+        // Load config.properties file
         FileReader file = new FileReader("./src/test/resources/config.properties");
         prop = new Properties();
         prop.load(file);
 
         logger = LogManager.getLogger(this.getClass());
-
         WebDriver driver = null;
 
-        switch (br.toLowerCase()) {
-        case "chrome":
-            // Set up Chrome options for headless mode
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--window-size=1920x1080");
-            options.addArguments("--disable-gpu");
-            driver = new ChromeDriver(options);
-            break;
+        if (useBrowserStack) {
+            // BrowserStack setup
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            HashMap<String, Object> browserstackOptions = new HashMap<>();
 
-        case "edge":
-            driver = new EdgeDriver();
-            break;
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    capabilities.setCapability("browserName", "Chrome");
+                    capabilities.setCapability("browserVersion", "latest");
+                    break;
+                case "edge":
+                    capabilities.setCapability("browserName", "Edge");
+                    capabilities.setCapability("browserVersion", "latest");
+                    break;
+                case "firefox":
+                    capabilities.setCapability("browserName", "Firefox");
+                    capabilities.setCapability("browserVersion", "latest");
+                    break;
+                case "safari":
+                    capabilities.setCapability("browserName", "Safari");
+                    capabilities.setCapability("browserVersion", "latest");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid browser name for BrowserStack.");
+            }
 
-        case "firefox":
-            driver = new FirefoxDriver();
-            break;
+            browserstackOptions.put("os", os);
+            browserstackOptions.put("osVersion", osVersion);
+            browserstackOptions.put("projectName", "Your Project Name");
+            browserstackOptions.put("buildName", "Build Name");
+            browserstackOptions.put("localIdentifier", BROWSERSTACK_LOCAL_IDENTIFIER);
+            browserstackOptions.put("seleniumVersion", "4.1.0");
 
-        default:
-            System.out.println("Invalid browser name");
-            return;
+            capabilities.setCapability("bstack:options", browserstackOptions);
+            driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
+        } else {
+            // Local browser setup
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--headless", "--window-size=1920x1080", "--disable-gpu");
+                    driver = new ChromeDriver(chromeOptions);
+                    break;
+                case "edge":
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    edgeOptions.addArguments("--headless", "--window-size=1920x1080", "--disable-gpu");
+                    driver = new EdgeDriver(edgeOptions);
+                    break;
+                case "firefox":
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.addArguments("--headless", "--width=1920", "--height=1080");
+                    driver = new FirefoxDriver(firefoxOptions);
+                    break;
+                case "safari":
+                    throw new UnsupportedOperationException("Safari is not supported for local execution.");
+                default:
+                    throw new IllegalArgumentException("Invalid browser name for local execution.");
+            }
         }
 
-        // Store WebDriver instance in ThreadLocal
         threadLocalDriver.set(driver);
 
         // Configure browser
@@ -78,15 +124,7 @@ public class Base {
         getDriver().manage().deleteAllCookies();
         getDriver().get(prop.getProperty("URL"));
     }
-
-    @AfterClass
-    public void tearDown() {
-        if (getDriver() != null) {
-            getDriver().quit();
-            threadLocalDriver.remove(); // Remove WebDriver instance from ThreadLocal
-        }
-    }
-
+    
     // Method to take a screenshot and save it to a file
     public String takeScreenshot(String testName) {
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -104,4 +142,13 @@ public class Base {
         }
         return screenshotPath;
     }
+
+    @AfterClass
+    public void tearDown() {
+        if (getDriver() != null) {
+            getDriver().quit();
+            threadLocalDriver.remove();
+        }
+    }
+    
 }

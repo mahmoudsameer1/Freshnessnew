@@ -2,27 +2,42 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-12-06T14:34:43 AST" name="Suite" finished-at="2024-12-06T14:35:04 AST" duration-ms="21598">
+  <suite started-at="2024-12-06T19:43:23 AST" name="Suite" finished-at="2024-12-06T19:43:40 AST" duration-ms="17467">
     <groups>
     </groups>
-    <test started-at="2024-12-06T14:34:43 AST" name="Test" finished-at="2024-12-06T14:35:04 AST" duration-ms="21598">
+    <test started-at="2024-12-06T19:43:23 AST" name="Chrome Tests" finished-at="2024-12-06T19:43:40 AST" duration-ms="17467">
       <class name="com.Freshnessnew.HomePageTests.HomePageTest">
-        <test-method is-config="true" signature="launchApp(java.lang.String)[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@565f390]" started-at="2024-12-06T14:34:43 AST" name="launchApp" finished-at="2024-12-06T14:34:55 AST" duration-ms="12741" status="PASS">
+        <test-method is-config="true" signature="launchApp(java.lang.String,boolean,java.lang.String,java.lang.String)[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@2f67a4d3]" started-at="2024-12-06T19:43:23 AST" name="launchApp" finished-at="2024-12-06T19:43:32 AST" duration-ms="9280" status="PASS">
           <params>
             <param index="0">
               <value>
                 <![CDATA[chrome]]>
               </value>
             </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[Windows]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[10]]>
+              </value>
+            </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- launchApp -->
-        <test-method is-config="true" signature="setup()[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@565f390]" started-at="2024-12-06T14:34:55 AST" name="setup" finished-at="2024-12-06T14:34:55 AST" duration-ms="10" status="PASS">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@2f67a4d3]" started-at="2024-12-06T19:43:32 AST" name="setup" finished-at="2024-12-06T19:43:32 AST" duration-ms="3" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="createNewProduct()[pri:1, instance:com.Freshnessnew.HomePageTests.HomePageTest@565f390]" started-at="2024-12-06T14:34:56 AST" name="createNewProduct" description="Add a new product and verify it’s added successfully" finished-at="2024-12-06T14:35:03 AST" duration-ms="7434" status="FAIL">
+        <test-method signature="createNewProduct()[pri:1, instance:com.Freshnessnew.HomePageTests.HomePageTest@2f67a4d3]" started-at="2024-12-06T19:43:32 AST" name="createNewProduct" description="Add a new product and verify it’s added successfully" finished-at="2024-12-06T19:43:39 AST" duration-ms="6635" status="FAIL">
           <exception class="java.lang.AssertionError">
             <message>
               <![CDATA[Intentional failed for testing purposes. expected [true] but found [false]]]>
@@ -47,33 +62,23 @@ at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
 at org.testng.TestRunner.privateRun(TestRunner.java:819)
 at org.testng.TestRunner.run(TestRunner.java:619)
 at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
-at org.testng.SuiteRunner.run(SuiteRunner.java:336)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1228)
-at org.testng.TestNG.runSuites(TestNG.java:1134)
-at org.testng.TestNG.run(TestNG.java:1101)
-at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:308)
-at org.apache.maven.surefire.testng.TestNGXmlTestSuite.execute(TestNGXmlTestSuite.java:71)
-at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:113)
-at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
-at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
-at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
-at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+at org.testng.SuiteRunner$SuiteWorker.run(SuiteRunner.java:481)
+at org.testng.internal.thread.ThreadUtil.lambda$execute$0(ThreadUtil.java:58)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+at java.base/java.lang.Thread.run(Thread.java:1623)
 ]]>
             </full-stacktrace>
           </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- createNewProduct -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@565f390]" started-at="2024-12-06T14:35:04 AST" name="tearDown" finished-at="2024-12-06T14:35:04 AST" duration-ms="638" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Freshnessnew.HomePageTests.HomePageTest@2f67a4d3]" started-at="2024-12-06T19:43:39 AST" name="tearDown" finished-at="2024-12-06T19:43:40 AST" duration-ms="570" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.Freshnessnew.HomePageTests.HomePageTest -->
-    </test> <!-- Test -->
+    </test> <!-- Chrome Tests -->
   </suite> <!-- Suite -->
 </testng-results>

@@ -27,7 +27,17 @@ jobs:
         sudo mv allure-2.24.0 /opt/allure
         sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-    - name: Build and Test with Maven
+    - name: Set BrowserStack Credentials
+      env:
+        BROWSERSTACK_USERNAME: mahmoudsameer_QCshyF
+        BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
+      run: |
+        echo "BrowserStack credentials set."
+
+    - name: Build and Test with Maven on BrowserStack
+      env:
+        BROWSERSTACK_USERNAME: mahmoudsameer_QCshyF
+        BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
       run: mvn clean test || echo "Tests failed but continuing to generate report"
 
     - name: Debug Allure Results Directory
@@ -64,7 +74,7 @@ jobs:
         connection_url: smtp://smtp.gmail.com:587
         username: mahmoudsameer560@gmail.com
         password: blxi ymqn qjlk jpio
-        to: sameermahmoud132@gmail.com
+        to: mahmoudsameer560@gmail.com
         from: mahmoudsameer560@gmail.com
         subject: Allure Test Report
         body: Please find attached the Allure Test Report.
