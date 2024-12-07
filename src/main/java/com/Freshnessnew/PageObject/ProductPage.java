@@ -53,7 +53,7 @@ public class ProductPage extends Base{
 
 	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
 		File file = new File(System.getProperty("user.dir") + "/src/test/resources/Jacket.png");
-        String filePath = file.getAbsolutePath();
+		String filePath = file.getAbsolutePath();
 		action.uploadFile(upload_file, filePath);
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
