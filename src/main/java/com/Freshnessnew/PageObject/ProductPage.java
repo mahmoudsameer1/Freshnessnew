@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -58,14 +59,17 @@ public class ProductPage extends Base{
         // File path for the file you want to upload
         String filePath = System.getProperty("user.dir") + "/src/test/resources/Jacket.png";
         
-        // Check if WebElement is an instance of RemoteWebElement and set LocalFileDetector if necessary
-        if (upload_file instanceof RemoteWebElement) {
+        // Log the file path for debugging purposes
+        System.out.println("File path: " + filePath);
+
+        // Check if driver is instance of RemoteWebDriver (running in BrowserStack)
+        if (getDriver() instanceof RemoteWebDriver) {
+            // Apply LocalFileDetector for BrowserStack
             ((RemoteWebElement) upload_file).setFileDetector(new LocalFileDetector());
         }
 
-        // Upload file
+        // Upload the file
         upload_file.sendKeys(filePath);
-
         
 		/*
 		 * File file = new File(System.getProperty("user.dir") +
