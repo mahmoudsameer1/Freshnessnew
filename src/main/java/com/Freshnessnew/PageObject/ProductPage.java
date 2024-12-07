@@ -59,7 +59,7 @@ public class ProductPage extends Base {
 		 * File file = new File("src/test/resources/Jacket.png"); String filePath =
 		 * file.getAbsolutePath();
 		 */
-		upload_file.sendKeys("src/test/resources/Jacket.png");
+		upload_file.sendKeys(System.getProperty("user.dir")+"Jacket.png");
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);
