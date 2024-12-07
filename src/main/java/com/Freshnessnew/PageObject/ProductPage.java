@@ -56,7 +56,7 @@ public class ProductPage extends Base{
 
 	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
 		
-	       String filePath = System.getProperty("user.dir") + "/src/test/resources/Jacket.png";
+	       String filePath = "/src/test/resources/Jacket.png";
 	        
 	        // Log the file path for debugging purposes
 	        System.out.println("File path: " + filePath);
