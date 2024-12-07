@@ -55,11 +55,26 @@ public class ProductPage extends Base {
 	private List<WebElement> product_titles;
 
 	public void createproduct(String textTitle, String descriptiontext, String Price) throws InterruptedException {
-		/*
-		 * File file = new File("src/test/resources/Jacket.png"); String filePath =
-		 * file.getAbsolutePath();
-		 */
-		upload_file.sendKeys(System.getProperty("user.dir")+"/Jacket.png");
+	    String filePath;
+
+	    // Check if the test is running on BrowserStack
+	    if (System.getenv("BROWSERSTACK_USERNAME") != null) {
+	        // Upload the file to BrowserStack and get the remote path
+	        filePath = (String) ((JavascriptExecutor) getDriver()).executeScript(
+	            "browserstack_executor: {\"action\": \"fileUpload\", \"arguments\": {\"file\": \"" + System.getProperty("user.dir") + "/Jacket.png\"}}"
+	        );
+	    } else {
+	        // Use the local file path for non-BrowserStack execution
+	        filePath = System.getProperty("user.dir") + "/Jacket.png";
+	    }
+
+	    // Log the file path being used
+	    System.out.println("File path being used: " + filePath);
+
+	    // Interact with the upload file input
+	    upload_file.sendKeys(filePath);
+	    
+	    
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);

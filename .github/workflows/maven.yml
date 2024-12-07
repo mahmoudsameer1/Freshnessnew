@@ -38,12 +38,6 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
       run: echo "BrowserStack credentials are set successfully."
 
-    # Step 4.1: Verify File Accessibility
-    - name: Verify File Accessibility
-      run: |
-        echo "Checking if Jacket.png exists..."
-        ls -al /home/runner/work/Freshnessnew/Freshnessnew/
-
     # Step 5: Build and Test with Maven on BrowserStack
     - name: Build and Test with Maven
       env:
