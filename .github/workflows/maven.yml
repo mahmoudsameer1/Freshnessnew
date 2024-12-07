@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout Code
+    # Step 1: Checkout code
     - name: Checkout Code
       uses: actions/checkout@v3
 
@@ -23,21 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Step 3: Set BrowserStack Environment
-    - name: Set BrowserStack Environment
-      uses: browserstack/github-actions/setup-env@master
-      with:
-        username: mahmoudsameer_QCshyF
-        access-key: xscrZZa7CFssqgRQgV16
-
-    # Step 4: Start BrowserStack Local Tunnel
-    - name: Start BrowserStack Local Tunnel
-      uses: browserstack/github-actions/setup-local@master
-      with:
-        local-testing: start
-        local-identifier: selenium-test-local
-
-    # Step 5: Install Allure CLI
+    # Step 3: Install Allure CLI
     - name: Install Allure CLI
       run: |
         wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
@@ -45,29 +31,51 @@ jobs:
         sudo mv allure-2.24.0 /opt/allure
         sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-    # Step 6: Build and Test with Maven
+    # Step 4: Set BrowserStack Credentials
+    - name: Set BrowserStack Credentials
+      env:
+        BROWSERSTACK_USERNAME: mahmoudsameer_QCshyF
+        BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
+      run: echo "BrowserStack credentials are set successfully."
+
+    # Step 4.1: Verify File Accessibility
+    - name: Verify File Accessibility
+      run: |
+        echo "Checking if Jacket.png exists..."
+        ls -al /home/runner/work/Freshnessnew/Freshnessnew/
+
+    # Step 5: Build and Test with Maven on BrowserStack
     - name: Build and Test with Maven
       env:
         BROWSERSTACK_USERNAME: mahmoudsameer_QCshyF
         BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
-      run: mvn clean test || echo "Tests failed, proceeding to generate reports."
+      run: |
+        echo "Running tests with Maven..."
+        mvn clean test || echo "Tests failed, proceeding to generate reports."
 
-    # Step 7: Ensure Allure Results Directory Exists
+    # Step 6: Ensure Allure Results Directory Exists
     - name: Ensure Allure Results Directory
       run: mkdir -p allure-results
 
-    # Step 8: Generate Allure Report
+    # Step 7: Generate Allure Report
     - name: Generate Allure Report
       run: |
+        echo "Generating Allure Report..."
         allure generate allure-results --clean -o allure-report || echo "Failed to generate Allure Report."
       continue-on-error: true
 
-    # Step 9: Upload Allure Report as Artifact
+    # Step 8: Upload Allure Report as Artifact
     - name: Upload Allure Report as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: allure-report
         path: allure-report
+
+    # Step 9: Zip Allure Results and Report
+    - name: Zip Allure Results and Report
+      run: |
+        echo "Zipping allure-results and allure-report..."
+        zip -r allure-report.zip allure-results allure-report || echo "Failed to zip Allure directories."
 
     # Step 10: Send Allure Report via Email
     - name: Send Allure Report via Email
@@ -83,13 +91,8 @@ jobs:
           Please find the attached Allure Test Report.
         attachments: allure-report.zip
 
-    # Step 11: Stop BrowserStack Local Tunnel
-    - name: Stop BrowserStack Local Tunnel
-      uses: browserstack/github-actions/setup-local@master
-      with:
-        local-testing: stop
-
-    # Step 12: Clean up Temporary Files
+    # Step 11: Clean up Temporary Files
     - name: Clean up Temporary Files
       run: |
+        echo "Cleaning up..."
         rm -rf allure-2.24.0.tgz allure-2.24.0 allure-report.zip
