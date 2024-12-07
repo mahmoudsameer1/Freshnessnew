@@ -10,6 +10,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,9 +54,24 @@ public class ProductPage extends Base{
 	private List<WebElement> product_titles;
 
 	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
-		File file = new File(System.getProperty("user.dir") + "/src/test/resources/Jacket.png");
-		String filePath = file.getAbsolutePath();
-		action.uploadFile(upload_file, filePath);
+		
+        // File path for the file you want to upload
+        String filePath = System.getProperty("user.dir") + "/src/test/resources/Jacket.png";
+        
+        // Check if WebElement is an instance of RemoteWebElement and set LocalFileDetector if necessary
+        if (upload_file instanceof RemoteWebElement) {
+            ((RemoteWebElement) upload_file).setFileDetector(new LocalFileDetector());
+        }
+
+        // Upload file
+        upload_file.sendKeys(filePath);
+
+        
+		/*
+		 * File file = new File(System.getProperty("user.dir") +
+		 * "/src/test/resources/Jacket.png"); String filePath = file.getAbsolutePath();
+		 * action.uploadFile(upload_file, filePath);
+		 */
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);
