@@ -1,1 +1,12 @@
+# Maven build directory
 /target/
+
+# Allure report results
+/allure-results/
+
+/logs/
+
+/test-output/
+
+# Eclipse specific files
+/.classpath

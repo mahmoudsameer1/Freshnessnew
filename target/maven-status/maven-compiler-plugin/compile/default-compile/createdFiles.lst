@@ -1,7 +1,0 @@
-com\Freshnessnew\Utilities\DataProviders.class
-com\Freshnessnew\Base\Base.class
-com\Freshnessnew\PageObject\ProductPage.class
-com\Freshnessnew\PageObject\HomePage.class
-com\Freshnessnew\actiondriver\Action.class
-com\Freshnessnew\Utilities\ExcelUtility.class
-com\Freshnessnew\Utilities\Listener.class

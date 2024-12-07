@@ -8,7 +8,7 @@
     
     <test name="Chrome Tests">
         <parameter name="browser" value="chrome" />
-        <parameter name="useBrowserStack" value="true" />
+        <parameter name="useBrowserStack" value="false" />
         <parameter name="os" value="Windows" />
         <parameter name="osVersion" value="10" />
         <classes>
@@ -16,7 +16,7 @@
         </classes>
     </test>
     
-    <test name="Edge Tests">
+<!--    <test name="Edge Tests">
         <parameter name="browser" value="edge" />
         <parameter name="useBrowserStack" value="true" />
         <parameter name="os" value="Windows" />
@@ -26,7 +26,7 @@
         </classes>
     </test>
     
-<!--    <test name="Firefox Tests">
+    <test name="Firefox Tests">
         <parameter name="browser" value="firefox" />
         <parameter name="useBrowserStack" value="true" />
         <parameter name="os" value="Windows" />
