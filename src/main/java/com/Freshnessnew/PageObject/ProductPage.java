@@ -22,69 +22,52 @@ import com.Freshnessnew.actiondriver.Action;
 import com.github.javafaker.Faker;
 import com.Freshnessnew.Base.Base;
 
-public class ProductPage extends Base{
-	
+public class ProductPage extends Base {
+
 	public ProductPage() {
-        PageFactory.initElements(getDriver(), this); // Use getDriver() to initialize elements
+		PageFactory.initElements(getDriver(), this); // Use getDriver() to initialize elements
 	}
 
 	Action action = new Action();
-	
+
 	@FindBy(xpath = "//input[@name='file']")
 	private WebElement upload_file;
-	
+
 	@FindBy(name = "title")
 	private WebElement title;
-	
+
 	@FindBy(xpath = "//*[@id=\"root\"]/div/main/div/form/div[2]/div[2]/input")
 	private WebElement description;
-	
+
 	@FindBy(name = "price")
 	private WebElement price;
-	
+
 	@FindBy(xpath = "//button[normalize-space()='Create Product']")
 	private WebElement submit_button;
-	
+
 	@FindBy(xpath = "//button[@type='submit']")
 	private WebElement submit_button1;
-	
+
 	@FindBy(xpath = "//button[@class='sc-crozmw jrDktB flex justify-center items-center h-9 w-9 transition ease-in-out delay-150 duration-300']")
 	private List<WebElement> edit_button;
-	
-    @FindBy(xpath = "//div[@class='sc-kuWgmH brWvPg mt-4 cursor-pointer']")
+
+	@FindBy(xpath = "//div[@class='sc-kuWgmH brWvPg mt-4 cursor-pointer']")
 	private List<WebElement> product_titles;
 
-	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
-		
-	       String filePath = "/src/test/resources/Jacket.png";
-	        
-	        // Log the file path for debugging purposes
-	        System.out.println("File path: " + filePath);
-
-	        // Check if driver is instance of RemoteWebDriver (running in BrowserStack)
-	        if (getDriver() instanceof RemoteWebDriver) {
-	            // Ensure that the WebElement is a RemoteWebElement before applying LocalFileDetector
-	            if (upload_file instanceof RemoteWebElement) {
-	                ((RemoteWebElement) upload_file).setFileDetector(new LocalFileDetector());
-	            }
-	        }
-
-	        // Upload the file
-	        upload_file.sendKeys(filePath);
-        
+	public void createproduct(String textTitle, String descriptiontext, String Price) throws InterruptedException {
 		/*
-		 * File file = new File(System.getProperty("user.dir") +
-		 * "/src/test/resources/Jacket.png"); String filePath = file.getAbsolutePath();
-		 * action.uploadFile(upload_file, filePath);
+		 * File file = new File("src/test/resources/Jacket.png"); String filePath =
+		 * file.getAbsolutePath();
 		 */
+		upload_file.sendKeys("src/test/resources/Jacket.png");
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);
 		WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-	    wait.until(ExpectedConditions.elementToBeClickable(submit_button));
+		wait.until(ExpectedConditions.elementToBeClickable(submit_button));
 		action.click(getDriver(), submit_button);
 	}
-	
+
 //	public void editProduct(String textTitle, String editedTitle) throws InterruptedException {
 //	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 //	    wait.until(driver -> {
