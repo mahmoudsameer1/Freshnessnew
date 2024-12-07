@@ -38,14 +38,24 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: xscrZZa7CFssqgRQgV16
       run: echo "BrowserStack credentials are set successfully."
 
-    # Step 5: Debug File Structure Before Testing
+    # Step 5: Debug Project File Structure Before Testing
     - name: Debug Project File Structure
       run: |
         echo "Listing project structure:"
         pwd
         ls -R
 
-    # Step 6: Build and Test with Maven on BrowserStack
+    # Step 6: Check if Jacket.png Exists
+    - name: Check if Jacket.png Exists
+      run: |
+        echo "Checking if Jacket.png exists in src/test/resources..."
+        if [ -f src/test/resources/Jacket.png ]; then
+          echo "Jacket.png found at src/test/resources/Jacket.png";
+        else
+          echo "Jacket.png not found!" && exit 1;
+        fi
+
+    # Step 7: Build and Test with Maven on BrowserStack
     - name: Build and Test with Maven
       env:
         BROWSERSTACK_USERNAME: mahmoudsameer_QCshyF
@@ -54,49 +64,49 @@ jobs:
         echo "Running tests..."
         mvn clean test || echo "Tests failed, proceeding to generate reports."
 
-    # Step 7: Debug Allure Results Directory
+    # Step 8: Debug Allure Results Directory
     - name: Debug Allure Results Directory
       run: |
         echo "Checking allure-results directory contents:"
         ls -R allure-results || echo "allure-results directory is missing or empty."
 
-    # Step 8: Ensure Allure Results Directory Exists
+    # Step 9: Ensure Allure Results Directory Exists
     - name: Ensure Allure Results Directory
       run: mkdir -p allure-results
 
-    # Step 9: Generate Allure Report
+    # Step 10: Generate Allure Report
     - name: Generate Allure Report
       run: |
         echo "Generating Allure Report..."
         allure generate allure-results --clean -o allure-report || echo "Failed to generate Allure Report."
       continue-on-error: true
 
-    # Step 10: Debug Allure Report Directory
+    # Step 11: Debug Allure Report Directory
     - name: Debug Allure Report Directory
       run: |
         echo "Checking allure-report directory contents:"
         ls -R allure-report || echo "allure-report directory is missing or empty."
 
-    # Step 11: Upload Allure Report as Artifact
+    # Step 12: Upload Allure Report as Artifact
     - name: Upload Allure Report as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: allure-report
         path: allure-report
 
-    # Step 12: Zip Allure Results and Report
+    # Step 13: Zip Allure Results and Report
     - name: Zip Allure Results and Report
       run: |
         echo "Zipping allure-results and allure-report..."
         zip -r allure-report.zip allure-results allure-report || echo "Failed to zip Allure directories."
 
-    # Step 13: Debug Zipped Report
+    # Step 14: Debug Zipped Allure Report
     - name: Debug Zipped Allure Report
       run: |
         echo "Checking allure-report.zip:"
         ls -lh allure-report.zip || echo "Allure report zip is missing."
 
-    # Step 14: Send Allure Report via Email
+    # Step 15: Send Allure Report via Email
     - name: Send Allure Report via Email
       uses: dawidd6/action-send-mail@v3
       with:
@@ -110,13 +120,13 @@ jobs:
           Please find the attached Allure Test Report.
         attachments: allure-report.zip
 
-    # Step 15: Debug File Structure After Email
+    # Step 16: Debug Project File Structure After Email
     - name: Debug Project File Structure After Email
       run: |
         echo "Project structure after email step:"
         ls -R
 
-    # Step 16: Clean up Temporary Files
+    # Step 17: Clean up Temporary Files
     - name: Clean up Temporary Files
       run: |
         echo "Cleaning up..."
