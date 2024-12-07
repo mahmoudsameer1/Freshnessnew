@@ -56,20 +56,21 @@ public class ProductPage extends Base{
 
 	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
 		
-        // File path for the file you want to upload
-        String filePath = System.getProperty("user.dir") + "/src/test/resources/Jacket.png";
-        
-        // Log the file path for debugging purposes
-        System.out.println("File path: " + filePath);
+	       String filePath = System.getProperty("user.dir") + "/src/test/resources/Jacket.png";
+	        
+	        // Log the file path for debugging purposes
+	        System.out.println("File path: " + filePath);
 
-        // Check if driver is instance of RemoteWebDriver (running in BrowserStack)
-        if (getDriver() instanceof RemoteWebDriver) {
-            // Apply LocalFileDetector for BrowserStack
-            ((RemoteWebElement) upload_file).setFileDetector(new LocalFileDetector());
-        }
+	        // Check if driver is instance of RemoteWebDriver (running in BrowserStack)
+	        if (getDriver() instanceof RemoteWebDriver) {
+	            // Ensure that the WebElement is a RemoteWebElement before applying LocalFileDetector
+	            if (upload_file instanceof RemoteWebElement) {
+	                ((RemoteWebElement) upload_file).setFileDetector(new LocalFileDetector());
+	            }
+	        }
 
-        // Upload the file
-        upload_file.sendKeys(filePath);
+	        // Upload the file
+	        upload_file.sendKeys(filePath);
         
 		/*
 		 * File file = new File(System.getProperty("user.dir") +
