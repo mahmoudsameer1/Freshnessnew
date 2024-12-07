@@ -53,13 +53,6 @@ public class ProductPage extends Base{
 
 	public void createproduct(String textTitle,String descriptiontext, String Price) throws InterruptedException {
 		File file = new File(System.getProperty("user.dir") + "/src/test/resources/Jacket.png");
-		// Debugging: Confirm the resolved file path
-		System.out.println("Resolved file path: " + file.getAbsolutePath());
-		// Check if the file exists before proceeding
-		if (!file.exists()) {
-		    throw new RuntimeException("File not found: " + file.getAbsolutePath());
-		}
-		// Proceed with the upload
 		String filePath = file.getAbsolutePath();
 		action.uploadFile(upload_file, filePath);
 		action.typestring(title, textTitle);
