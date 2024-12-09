@@ -40,6 +40,7 @@ public class Base {
     public static final String BROWSERSTACK_ACCESS_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
     public static final String BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY
                                                   + "@hub-cloud.browserstack.com/wd/hub";
+    public static final String BROWSERSTACK_MEDIA_URL = "media://45138f377e8f375deb6a8f45c0c7d22c68295285";
 
     public static WebDriver getDriver() {
         return threadLocalDriver.get();
@@ -53,7 +54,6 @@ public class Base {
         FileReader file = new FileReader("./src/test/resources/config.properties");
         prop = new Properties();
         prop.load(file);
-
         logger = LogManager.getLogger(this.getClass());
         WebDriver driver = null;
 
@@ -61,6 +61,14 @@ public class Base {
             // BrowserStack setup
             DesiredCapabilities capabilities = new DesiredCapabilities();
             HashMap<String, Object> browserstackOptions = new HashMap<>();
+            
+            browserstackOptions.put("os", os);
+            browserstackOptions.put("osVersion", osVersion);
+            browserstackOptions.put("projectName", "Project Name");
+            browserstackOptions.put("buildName", "Build Name");
+            browserstackOptions.put("seleniumVersion", "4.1.0");
+            browserstackOptions.put("local", "false");
+            browserstackOptions.put("media", new String[]{BROWSERSTACK_MEDIA_URL});
 
             switch (browser.toLowerCase()) {
                 case "chrome":
@@ -95,12 +103,6 @@ public class Base {
                 default:
                     throw new IllegalArgumentException("Invalid browser name for BrowserStack.");
             }
-
-            browserstackOptions.put("os", os);
-            browserstackOptions.put("osVersion", osVersion);
-            browserstackOptions.put("projectName", "Your Project Name");
-            browserstackOptions.put("buildName", "Build Name");
-            browserstackOptions.put("seleniumVersion", "4.1.0");
 
             capabilities.setCapability("bstack:options", browserstackOptions);
             driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
