@@ -55,11 +55,13 @@ public class ProductPage extends Base {
 	private List<WebElement> product_titles;
 
 	public void createproduct(String textTitle, String descriptiontext, String Price) throws InterruptedException {
-		String mediaUrl = Base.BROWSERSTACK_MEDIA_URL;
-	    ((JavascriptExecutor) getDriver()).executeScript(
-	            "arguments[0].value = arguments[1];", upload_file, mediaUrl);
-	   // String filePath = System.getProperty("user.dir") + "/Jacket.png";
-	   // upload_file.sendKeys(filePath);
+		/*
+		 * String mediaUrl = Base.BROWSERSTACK_MEDIA_URL; ((JavascriptExecutor)
+		 * getDriver()).executeScript( "arguments[0].value = arguments[1];",
+		 * upload_file, mediaUrl);
+		 */
+	    String filePath = System.getProperty("user.dir") + "/Jacket.png";
+	    upload_file.sendKeys(filePath);
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);

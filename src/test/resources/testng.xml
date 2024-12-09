@@ -8,7 +8,7 @@
     
     <test name="Chrome Tests">
         <parameter name="browser" value="chrome" />
-        <parameter name="useBrowserStack" value="true" />
+        <parameter name="useBrowserStack" value="false" />
         <parameter name="os" value="Windows" />
         <parameter name="osVersion" value="10" />
         <classes>
