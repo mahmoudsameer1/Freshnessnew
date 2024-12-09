@@ -54,11 +54,11 @@ public class ProductPage extends Base {
 	@FindBy(xpath = "//div[@class='sc-kuWgmH brWvPg mt-4 cursor-pointer']")
 	private List<WebElement> product_titles;
 
-	public void createproduct(String textTitle, String descriptiontext, String Price) throws InterruptedException {
-		
-//		String mediaUrl = Base.BROWSERSTACK_MEDIA_URL; ((JavascriptExecutor)
-//		getDriver()).executeScript( "arguments[0].value = arguments[1];",
-//		upload_file, mediaUrl); 
+	public void createproduct(String textTitle, String descriptiontext, String Price) throws InterruptedException {		
+	    if (getDriver() instanceof RemoteWebDriver) {
+	        ((RemoteWebDriver) getDriver()).setFileDetector(new LocalFileDetector());
+	    }
+	    // Specify the file path
 	    String filePath = System.getProperty("user.dir") + "/Jacket.png";
 	    upload_file.sendKeys(filePath);
 		action.typestring(title, textTitle);

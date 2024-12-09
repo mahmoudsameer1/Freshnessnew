@@ -69,8 +69,7 @@ public class Base {
             	    .put("osVersion", osVersion)
             	    .put("projectName", "Sample Test")
             	    .put("buildName", "Sample_test")
-            	    .put("uploadMedia", new JSONArray().put("media://45138f377e8f375deb6a8f45c0c7d22c68295285"))
-            	    .put("local", "true")
+            	    .put("uploadMedia", new JSONArray().put(BROWSERSTACK_MEDIA_URL))
             	);
 
             switch (browser.toLowerCase()) {
