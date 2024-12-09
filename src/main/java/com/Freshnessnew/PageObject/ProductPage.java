@@ -59,9 +59,8 @@ public class ProductPage extends Base {
 //		String mediaUrl = Base.BROWSERSTACK_MEDIA_URL; ((JavascriptExecutor)
 //		getDriver()).executeScript( "arguments[0].value = arguments[1];",
 //		upload_file, mediaUrl); 
-		String mediaUrl = Base.BROWSERSTACK_MEDIA_URL;
-//	    String filePath = System.getProperty("user.dir") + "/Jacket.png";
-	    upload_file.sendKeys(BROWSERSTACK_MEDIA_URL);
+	    String filePath = System.getProperty("user.dir") + "/Jacket.png";
+	    upload_file.sendKeys(filePath);
 		action.typestring(title, textTitle);
 		action.typestring(description, descriptiontext);
 		action.typestring(price, Price);

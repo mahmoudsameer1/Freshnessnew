@@ -64,14 +64,13 @@ public class Base {
         if (useBrowserStack) {
             // BrowserStack setup
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            HashMap<String, Object> browserstackOptions = new HashMap<>();
-            
             capabilities.setCapability("bstack:options", new JSONObject()
             	    .put("os", os)
             	    .put("osVersion", osVersion)
             	    .put("projectName", "Sample Test")
             	    .put("buildName", "Sample_test")
             	    .put("uploadMedia", new JSONArray().put("media://45138f377e8f375deb6a8f45c0c7d22c68295285"))
+            	    .put("local", "true")
             	);
 
             switch (browser.toLowerCase()) {
@@ -109,15 +108,6 @@ public class Base {
                     throw new IllegalArgumentException("Invalid browser name for BrowserStack.");
             }
             
-//            browserstackOptions.put("os", os);
-//            browserstackOptions.put("osVersion", osVersion);
-//            browserstackOptions.put("projectName", "Your Project Name");
-//            browserstackOptions.put("buildName", "Build Name");
-//            browserstackOptions.put("local", "false");
-//            browserstackOptions.put("seleniumVersion", "4.27.0");
-//            browserstackOptions.put("uploadMedia", new JSONArray().put(BROWSERSTACK_MEDIA_URL));
-//            
-//            capabilities.setCapability("bstack:options", browserstackOptions);
             driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
         } else {
             // Local browser setup
