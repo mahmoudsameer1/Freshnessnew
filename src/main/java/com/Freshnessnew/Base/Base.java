@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import browserstack.shaded.org.json.JSONArray;
+import browserstack.shaded.org.json.JSONObject;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -64,11 +65,20 @@ public class Base {
             // BrowserStack setup
             DesiredCapabilities capabilities = new DesiredCapabilities();
             HashMap<String, Object> browserstackOptions = new HashMap<>();
+            
+            capabilities.setCapability("bstack:options", new JSONObject()
+            	    .put("os", os)
+            	    .put("osVersion", osVersion)
+            	    .put("projectName", "Sample Test")
+            	    .put("buildName", "Sample_test")
+            	    .put("uploadMedia", new JSONArray().put("media://45138f377e8f375deb6a8f45c0c7d22c68295285"))
+            	);
 
             switch (browser.toLowerCase()) {
                 case "chrome":
                     capabilities.setCapability("browserName", "Chrome");
                     capabilities.setCapability("browserVersion", "latest");
+                    capabilities.setCapability("browserVersion", "131.0.6778.109");
                     // Set Chrome to headless mode
                     capabilities.setCapability("goog:chromeOptions", new HashMap<String, Object>() {{
                         put("args", new String[]{"--headless", "--window-size=1920x1080", "--disable-gpu"});
@@ -99,15 +109,15 @@ public class Base {
                     throw new IllegalArgumentException("Invalid browser name for BrowserStack.");
             }
             
-            browserstackOptions.put("os", os);
-            browserstackOptions.put("osVersion", osVersion);
-            browserstackOptions.put("projectName", "Your Project Name");
-            browserstackOptions.put("buildName", "Build Name");
+//            browserstackOptions.put("os", os);
+//            browserstackOptions.put("osVersion", osVersion);
+//            browserstackOptions.put("projectName", "Your Project Name");
+//            browserstackOptions.put("buildName", "Build Name");
 //            browserstackOptions.put("local", "false");
-            browserstackOptions.put("seleniumVersion", "4.27.0");
+//            browserstackOptions.put("seleniumVersion", "4.27.0");
 //            browserstackOptions.put("uploadMedia", new JSONArray().put(BROWSERSTACK_MEDIA_URL));
-            
-            capabilities.setCapability("bstack:options", browserstackOptions);
+//            
+//            capabilities.setCapability("bstack:options", browserstackOptions);
             driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
         } else {
             // Local browser setup
@@ -115,6 +125,7 @@ public class Base {
                 case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--headless", "--window-size=1920x1080", "--disable-gpu");
+                    
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 case "edge":
