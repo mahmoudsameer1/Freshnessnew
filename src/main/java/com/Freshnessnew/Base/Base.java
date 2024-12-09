@@ -67,7 +67,7 @@ public class Base {
             browserstackOptions.put("projectName", "Project Name");
             browserstackOptions.put("buildName", "Build Name");
             browserstackOptions.put("seleniumVersion", "4.27.0");
-//            browserstackOptions.put("local", "false");
+            browserstackOptions.put("local", "false");
             browserstackOptions.put("media", new String[]{BROWSERSTACK_MEDIA_URL});
 
             switch (browser.toLowerCase()) {
