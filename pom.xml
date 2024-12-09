@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.browserstack</groupId>
 			<artifactId>browserstack-java-sdk</artifactId>
-			<version>${browserstack-java-sdk-version}</version>
+			<version>LATEST</version>
 		</dependency>
 	</dependencies>
 	<build>

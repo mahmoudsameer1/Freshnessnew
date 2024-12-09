@@ -15,6 +15,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
+
+import browserstack.shaded.org.json.JSONArray;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -68,7 +71,7 @@ public class Base {
             browserstackOptions.put("buildName", "Build Name");
             browserstackOptions.put("seleniumVersion", "4.27.0");
             browserstackOptions.put("local", "false");
-            browserstackOptions.put("media", new String[]{BROWSERSTACK_MEDIA_URL});
+            browserstackOptions.put("uploadMedia", new JSONArray().put("BROWSERSTACK_MEDIA_URL"));
 
             switch (browser.toLowerCase()) {
                 case "chrome":
@@ -131,6 +134,8 @@ public class Base {
             }
         }
 
+
+        
         threadLocalDriver.set(driver);
 
         // Configure browser
